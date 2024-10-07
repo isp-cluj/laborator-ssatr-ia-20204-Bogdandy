@@ -15,17 +15,17 @@ public class Ticket {
     private LocalDateTime eventDate;
     private String ticketType;
     private double ticketPrice;
-    private int Seat;
-    private int Row;
+    private int seat;
+    private int row;
     private int numberOfEntries;
 
-    public Ticket(String eventName, LocalDateTime eventDate, String ticketType, double ticketPrice, int Seat, int Row, int numberOfEntries) {
+    public Ticket(String eventName, LocalDateTime eventDate, String ticketType, double ticketPrice, int seat, int row, int numberOfEntries) {
         this.eventName = eventName;
         this.eventDate = eventDate;
         this.ticketType = ticketType;
         this.ticketPrice = ticketPrice;
-        this.Seat = Seat;
-        this.Row = Row;
+        this.seat = seat;
+        this.row = row;
         this.numberOfEntries = numberOfEntries;
     }
 }
