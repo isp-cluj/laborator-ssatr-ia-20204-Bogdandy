@@ -29,6 +29,11 @@ public class Ticket {
         this.numberOfEntries = numberOfEntries;
     }
 
+    @Override
+    public String toString() {
+        return "Ticket{" + "eventName=" + eventName + ", eventDate=" + eventDate + ", ticketType=" + ticketType + ", ticketPrice=" + ticketPrice + ", seat=" + seat + ", row=" + row + ", numberOfEntries=" + numberOfEntries + '}';
+    }
+
     public String getEventName() {
         return eventName;
     }
