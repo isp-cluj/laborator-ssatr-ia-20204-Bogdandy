@@ -13,18 +13,17 @@ public class Buyer {
     private String surename;
     private String email;
     private String phoneNumber;
+    private String address;
     private Ticket ticket;
     private String purchaseDate;
 
-    public Buyer(String name, String surename, String email, String phoneNumber, Ticket ticket, String purchaseDate) {
+    public Buyer(String name, String surename, String email, String phoneNumber, String address, Ticket ticket, String purchaseDate) {
         this.name = name;
         this.surename = surename;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        this.address = address;
         this.ticket = ticket;
         this.purchaseDate = purchaseDate;
     }
-
-    
-    
 }
