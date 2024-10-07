@@ -27,6 +27,11 @@ public class Buyer {
         this.purchaseDate = purchaseDate;
     }
 
+    @Override
+    public String toString() {
+        return "Buyer{" + "name=" + name + ", surename=" + surename + ", email=" + email + ", phoneNumber=" + phoneNumber + ", address=" + address + ", ticket=" + ticket + ", purchaseDate=" + purchaseDate + '}';
+    }
+
     public String getName() {
         return name;
     }
