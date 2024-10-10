@@ -21,7 +21,7 @@ public class EncryptionService {
         //decode string 
         //convert decoded string in ticket object
         // retrun object
-        return new Ticket("Opera", LocalDateTime.now(), "VIP", 120, 2, 4, 2);
+        return new Ticket("Opera", LocalDateTime.now(), "VIP", 120);
     }
     
 }

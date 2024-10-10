@@ -15,25 +15,19 @@ public class Ticket {
     private LocalDateTime eventDate;
     private String ticketType;
     private double ticketPrice;
-    private int seat;
-    private int row;
-    private int numberOfEntries;
 
-    public Ticket(String eventName, LocalDateTime eventDate, String ticketType, double ticketPrice, int seat, int row, int numberOfEntries) {
+    public Ticket(String eventName, LocalDateTime eventDate, String ticketType, double ticketPrice) {
         this.eventName = eventName;
         this.eventDate = eventDate;
         this.ticketType = ticketType;
         this.ticketPrice = ticketPrice;
-        this.seat = seat;
-        this.row = row;
-        this.numberOfEntries = numberOfEntries;
     }
-
+    
     @Override
     public String toString() {
-        return "Ticket{" + "eventName=" + eventName + ", eventDate=" + eventDate + ", ticketType=" + ticketType + ", ticketPrice=" + ticketPrice + ", seat=" + seat + ", row=" + row + ", numberOfEntries=" + numberOfEntries + '}';
+        return "Ticket{" + "eventName=" + eventName + ", eventDate=" + eventDate + ", ticketType=" + ticketType + ", ticketPrice=" + ticketPrice + '}';
     }
-
+    
     public String getEventName() {
         return eventName;
     }
@@ -64,29 +58,5 @@ public class Ticket {
 
     public void setTicketPrice(double ticketPrice) {
         this.ticketPrice = ticketPrice;
-    }
-
-    public int getSeat() {
-        return seat;
-    }
-
-    public void setSeat(int seat) {
-        this.seat = seat;
-    }
-
-    public int getRow() {
-        return row;
-    }
-
-    public void setRow(int row) {
-        this.row = row;
-    }
-
-    public int getNumberOfEntries() {
-        return numberOfEntries;
-    }
-
-    public void setNumberOfEntries(int numberOfEntries) {
-        this.numberOfEntries = numberOfEntries;
     }
 }

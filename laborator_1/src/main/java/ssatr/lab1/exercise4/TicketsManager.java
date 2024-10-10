@@ -19,14 +19,13 @@ public class TicketsManager {
     private EncryptionService es = new EncryptionService(); 
     private QRCodeService qs = new QRCodeService();
     
-    Ticket generateTicket(String eventName, LocalDateTime eventDate, String ticketType, double ticketPrice, int seat, int row, int numberOfEntries){
+    Ticket generateTicket(Ticket ticket){
         System.out.println("Creating new ticket...");
-        Ticket t = new Ticket(eventName, eventDate, ticketType, ticketPrice, seat, row, numberOfEntries);
-        String et = es.encryptTicket(t);
+        String et = es.encryptTicket(ticket);
         list.add(et);      
         qs.generateTicket(et);
         
-        return t;
+        return ticket;
     }
 
     boolean validateTicket(String pathToQRCodeImage, String validationIno){

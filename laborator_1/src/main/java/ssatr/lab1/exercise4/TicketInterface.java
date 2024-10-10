@@ -4,7 +4,15 @@
  */
 package ssatr.lab1.exercise4;
 
+import java.util.List;
 import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  *
@@ -12,12 +20,22 @@ import java.time.LocalDateTime;
  */
 public class TicketInterface extends javax.swing.JFrame {
     private TicketsManager tm = new TicketsManager();
-
+    private ArrayList<Ticket> ticketList;
     /**
      * Creates new form TicketInterface
      */
     public TicketInterface() {
+        this.ticketList = new ArrayList<>();
+        ticketList.add(new Ticket("Opera", LocalDateTime.of(2025, 
+                                           Month.SEPTEMBER, 20, 21, 30), "VIP", 200));
+        ticketList.add(new Ticket("Rock Concert", LocalDateTime.of(2025, 
+                                           Month.AUGUST, 15, 19, 30), "VIP", 100));
+        ticketList.add(new Ticket("EDM", LocalDateTime.of(2025, 
+                                           Month.DECEMBER, 18, 12, 30), "VIP", 120));
+        ticketList.add(new Ticket("Jazz", LocalDateTime.of(2025, 
+                                           Month.JULY, 9, 20, 00), "VIP", 150));
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -29,11 +47,12 @@ public class TicketInterface extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jSeparator1 = new javax.swing.JSeparator();
         nameTextField = new javax.swing.JTextField();
         surenameTextField = new javax.swing.JTextField();
         nameLabel = new javax.swing.JLabel();
         surenameLabel = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        eventNamesComboBox = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         emailLabel = new javax.swing.JLabel();
         emailTextField = new javax.swing.JTextField();
@@ -42,8 +61,16 @@ public class TicketInterface extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         phoneNumberLabel = new javax.swing.JLabel();
         phoneNumberTextField = new javax.swing.JTextField();
+        priceLabel = new javax.swing.JLabel();
+        priceTextField = new javax.swing.JTextField();
+        ticketTypeLabel = new javax.swing.JLabel();
+        ticketTypeTextField = new javax.swing.JTextField();
+        dateLabel = new javax.swing.JLabel();
+        dateTextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setName("TicketFrame"); // NOI18N
+        setResizable(false);
 
         nameTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -55,7 +82,16 @@ public class TicketInterface extends javax.swing.JFrame {
 
         surenameLabel.setText("Surename");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        List<String> ticketNames = new ArrayList<String>();
+        for(Ticket ticket : ticketList){
+            ticketNames.add(ticket.getEventName());
+        }
+        eventNamesComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(ticketNames.toArray(new String[0])));
+        eventNamesComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eventNamesComboBoxActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Event");
 
@@ -72,11 +108,21 @@ public class TicketInterface extends javax.swing.JFrame {
 
         phoneNumberLabel.setText("Phone Number");
 
-        phoneNumberTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                phoneNumberTextFieldActionPerformed(evt);
-            }
-        });
+        priceLabel.setText("Price");
+
+        priceTextField.setEditable(false);
+        priceTextField.setText(String.valueOf(ticketList.get(eventNamesComboBox.getSelectedIndex()).getTicketPrice()));
+        priceTextField.setEnabled(false);
+
+        ticketTypeLabel.setText("Type");
+
+        ticketTypeTextField.setText(String.valueOf(ticketList.get(eventNamesComboBox.getSelectedIndex()).getTicketType()));
+        ticketTypeTextField.setEnabled(false);
+
+        dateLabel.setText("Date");
+
+        dateTextField.setText(ticketList.get(eventNamesComboBox.getSelectedIndex()).getEventDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")));
+        dateTextField.setEnabled(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -85,56 +131,80 @@ public class TicketInterface extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(nameLabel)
-                    .addComponent(surenameLabel)
-                    .addComponent(emailLabel)
-                    .addComponent(addressLabel)
-                    .addComponent(jLabel3)
-                    .addComponent(phoneNumberLabel))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(nameTextField)
-                    .addComponent(surenameTextField)
-                    .addComponent(emailTextField)
-                    .addComponent(addressTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
-                    .addComponent(phoneNumberTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
-                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(180, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(19, 19, 19))
+                    .addComponent(jButton1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(nameLabel)
+                            .addComponent(surenameLabel)
+                            .addComponent(emailLabel)
+                            .addComponent(addressLabel)
+                            .addComponent(phoneNumberLabel))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(nameTextField)
+                            .addComponent(surenameTextField)
+                            .addComponent(emailTextField)
+                            .addComponent(addressTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
+                            .addComponent(phoneNumberTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE))
+                        .addGap(124, 124, 124)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(priceLabel)
+                            .addComponent(ticketTypeLabel)
+                            .addComponent(dateLabel)
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(eventNamesComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(ticketTypeTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(priceTextField, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addComponent(dateTextField))
+                        .addGap(9, 9, 9)))
+                .addGap(36, 36, 36))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(31, 31, 31)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nameLabel))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(nameLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(surenameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(surenameLabel)
+                            .addComponent(dateLabel)
+                            .addComponent(dateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(eventNamesComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel3)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(surenameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(surenameLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(emailLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addressLabel))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(emailLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(addressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(addressLabel)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(priceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(priceLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(ticketTypeLabel)
+                            .addComponent(ticketTypeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(phoneNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(phoneNumberLabel))
-                .addGap(121, 121, 121)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 113, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1)
-                .addGap(17, 17, 17))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         pack();
@@ -146,18 +216,21 @@ public class TicketInterface extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-
-        Ticket ticket1 = tm.generateTicket("Opera", LocalDateTime.now(), "VIP", 120, 2, 4, 2);
-        Buyer buyer1 = new Buyer(nameTextField.getText(), surenameTextField.getText(), emailTextField.getText(), phoneNumberTextField.getText(), addressTextField.getText(), 
-                ticket1, LocalDateTime.now().toString());
         
-        System.out.println(buyer1.toString());
+        Ticket ticket = tm.generateTicket(ticketList.get(eventNamesComboBox.getSelectedIndex()));
+        Buyer buyer = new Buyer(nameTextField.getText(), surenameTextField.getText(), emailTextField.getText(), phoneNumberTextField.getText(), addressTextField.getText(), 
+                ticket, LocalDateTime.now().toString());
+        
+        System.out.println(buyer.toString());
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void phoneNumberTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phoneNumberTextFieldActionPerformed
+    private void eventNamesComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eventNamesComboBoxActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_phoneNumberTextFieldActionPerformed
+        priceTextField.setText(String.valueOf(ticketList.get(eventNamesComboBox.getSelectedIndex()).getTicketPrice()));
+        ticketTypeTextField.setText(ticketList.get(eventNamesComboBox.getSelectedIndex()).getTicketType());
+        dateTextField.setText(ticketList.get(eventNamesComboBox.getSelectedIndex()).getEventDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")));
+    }//GEN-LAST:event_eventNamesComboBoxActionPerformed
 
     /**
      * @param args the command line arguments
@@ -169,25 +242,13 @@ public class TicketInterface extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TicketInterface.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TicketInterface.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TicketInterface.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TicketInterface.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            UIManager.setLookAndFeel("com.formdev.flatlaf.FlatDarkLaf");
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(TicketInterface.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-
-        /* Create and display the form */
+        
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new TicketInterface().setVisible(true);
             }
@@ -197,16 +258,23 @@ public class TicketInterface extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel addressLabel;
     private javax.swing.JTextField addressTextField;
+    private javax.swing.JLabel dateLabel;
+    private javax.swing.JTextField dateTextField;
     private javax.swing.JLabel emailLabel;
     private javax.swing.JTextField emailTextField;
+    private javax.swing.JComboBox<String> eventNamesComboBox;
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JTextField nameTextField;
     private javax.swing.JLabel phoneNumberLabel;
     private javax.swing.JTextField phoneNumberTextField;
+    private javax.swing.JLabel priceLabel;
+    private javax.swing.JTextField priceTextField;
     private javax.swing.JLabel surenameLabel;
     private javax.swing.JTextField surenameTextField;
+    private javax.swing.JLabel ticketTypeLabel;
+    private javax.swing.JTextField ticketTypeTextField;
     // End of variables declaration//GEN-END:variables
 }
