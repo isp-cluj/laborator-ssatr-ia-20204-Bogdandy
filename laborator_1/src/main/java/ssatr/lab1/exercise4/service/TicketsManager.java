@@ -1,4 +1,4 @@
-package ssatr.lab1.exercise4;
+package ssatr.lab1.exercise4.service;
 
 import com.google.zxing.*;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import ssatr.lab1.exercise4.model.Ticket;
 
 public class TicketsManager {
 
@@ -19,7 +20,7 @@ public class TicketsManager {
     private EncryptionService es = new EncryptionService(); 
     private QRCodeService qs = new QRCodeService();
     
-    Ticket generateTicket(Ticket ticket){
+    public Ticket generateTicket(Ticket ticket){
         System.out.println("Creating new ticket...");
         String et = es.encryptTicket(ticket);
         list.add(et);      
